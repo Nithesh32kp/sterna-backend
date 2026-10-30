@@ -1,58 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sterna Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a Laravel API backend for the Sterna location management app.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- User authentication with Laravel Sanctum
+- Login endpoint for admin access
+- Location listing API for authenticated users
+- Database seeding for default admin account and location records
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Project structure
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- `app/` - application logic and controllers
+- `database/migrations/` - database schema migrations
+- `database/seeders/` - seed data for initial app setup
+- `routes/api.php` - API routes
+- `setup.sh` - bootstrap script to create and configure the Laravel app
 
-## Learning Laravel
+## Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8+
+- Composer
+- MySQL or another supported database
+- Laravel dependencies installed via Composer
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Setup
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+1. Open the project directory:
 
-## Agentic Development
+   ```bash
+   cd backend
+   ```
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+2. Install PHP dependencies:
 
-```bash
-composer require laravel/boost --dev
+   ```bash
+   composer install
+   ```
 
-php artisan boost:install
+3. Configure your environment file:
+
+   - Copy `.env.example` to `.env` if needed
+   - Set your database connection and credentials
+
+4. Run the bootstrap script:
+
+   ```bash
+   bash setup.sh
+   ```
+
+   This creates the Laravel app if needed, installs the API package, copies the project files, runs migrations, seeds the database, and starts the dev server.
+
+## Default login
+
+- Email: `admin@sterna.com`
+- Password: `Sterna@124`
+
+## API endpoints
+
+### Login
+
+```http
+POST /api/login
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Request body:
 
-## Contributing
+```json
+{
+  "email": "admin@sterna.com",
+  "password": "Sterna@124"
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Get locations
 
-## Code of Conduct
+```http
+GET /api/locations
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Requires authentication via Sanctum bearer token.
 
-## Security Vulnerabilities
+### Logout
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```http
+POST /api/logout
+```
 
-## License
+Requires authentication via Sanctum bearer token.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Notes
+
+- The app expects a MySQL database named `sterna` unless your `.env` is configured otherwise.
+- If the database does not exist, create it before running migrations.
+- For local development, the app is served on `http://localhost:8000` by default.
