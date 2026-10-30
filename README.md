@@ -54,7 +54,7 @@ This project is a Laravel API backend for the Sterna location management app.
 ## Default login
 
 - Email: `admin@sterna.com`
-- Password: `Sterna@124`
+- Password: `Sterna@123`
 
 ## API endpoints
 
